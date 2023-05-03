@@ -1,0 +1,41 @@
+import pandas as pd
+from functools import reduce
+import re
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# questions _3
+# making the graph of data Set (diabetes.csv)
+# here i will make the column chart of 'age' and 'BloodPressure' to find out which age group has more Blood Pressure
+
+dataSet = pd.read_csv('DataSets//diabetes.csv')
+data = dataSet['Age']
+# no of intervals on auto(best fit the data)
+n_intervals = int(np.ceil(np.log2(len(data))+1))
+# determinig the range
+intervals_range = max(data) - min(data)
+# interval width
+intervals_width = np.ceil(intervals_range/n_intervals)
+# determining the end_points
+interval_endpoints = np.arange(min(data), max(data)+intervals_width,intervals_width)
+# making the intevals
+interval_values = pd.cut(data, interval_endpoints)
+freq_table = pd.DataFrame({'interval':interval_values.value_counts().index, 'freq': interval_values.value_counts().values})
+freq_table = freq_table.sort_values('interval')
+print(type(freq_table['interval'][1]))
+print(freq_table.to_string(index=False))
+
+age_BP = dataSet.groupby('Age')['BloodPressure'].mean().to_frame().reset_index()
+sns.barplot(x='Age', y='BloodPressure', data=age_BP, palette='Blues')
+plt.title('column chart')
+plt.xlabel('Age')
+plt.ylabel('BloodPressure')
+plt.show()
+
+# i will draw a histogram between blood pressure and pregnancies
+plt.hist(dataSet['Age'])
+plt.title('histogram')
+plt.xlabel('Age')
+plt.ylabel('frequecy')
+plt.show()

@@ -1,0 +1,13 @@
+import pandas as pd
+from functools import reduce
+import re
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# round off the data
+dataSet = pd.read_csv('DataSets//diabetes.csv')
+diab_ped_function = list(map(lambda x: round(x*10, 1), dataSet['DiabetesPedigreeFunction']))
+dataSet['DiabetesPedigreeFunction'] = diab_ped_function
+dataSet.to_csv('new data.csv', index=False)
+print(dataSet)

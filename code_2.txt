@@ -1,0 +1,17 @@
+import pandas as pd
+
+df = pd.read_csv('DataSets//Motor_Vehicle_Collisions_-_Crashes.csv', low_memory=False)
+df['LATITUDE'] = df['LATITUDE'].astype(str)
+df['LONGITUDE'] = df['LONGITUDE'].astype(str)
+df = df[['CRASH DATE', 'LATITUDE', 'LONGITUDE']]
+df = df.dropna(axis=0, how='any')
+df = pd.read_csv('collision_new.csv')
+df['LATITUDE'] = df['LATITUDE'].astype(str)
+df['LONGITUDE'] = df['LONGITUDE'].astype(str)
+# day = df['CRASH DATE'].str.extract(r'(\d{1,2})')
+lat = list(df['LATITUDE'].str.extract(r'(\.\d{4})'))
+long = list(df['LONGITUDE'].str.extract(r'(\.\d{4})'))
+print(type(lat))
+
+
+
